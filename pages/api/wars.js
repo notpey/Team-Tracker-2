@@ -1,4 +1,3 @@
-//
 // pages/api/wars.js
 let wars = [];
 
