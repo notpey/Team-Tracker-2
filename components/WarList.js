@@ -1,39 +1,27 @@
 // components/WarList.js
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 
 export default function WarList() {
   const [wars, setWars] = useState([]);
 
   useEffect(() => {
-    const fetchWars = async () => {
-      try {
-        const res = await axios.get('/api/wars');
-        setWars(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchWars();
+    const storedWars = JSON.parse(localStorage.getItem('wars')) || [];
+    setWars(storedWars);
   }, []);
 
   return (
     <div>
-      <h2>Existing Wars</h2>
+      <h2>Saved War Sets</h2>
       {wars.length === 0 ? (
-        <p>No wars created yet.</p>
+        <p>No war data saved yet.</p>
       ) : (
         <ul>
-          {wars.map((war) => (
-            <li key={war.id} style={{
-              marginBottom: '15px',
-              padding: '10px',
-              border: '1px solid #ccc',
-              borderRadius: '5px'
-            }}>
-              <strong>{war.warName}</strong> - Created on {new Date(war.createdAt).toLocaleString()}
-              <div><strong>Rules:</strong> {war.rules}</div>
-              <div><strong>Banned Characters:</strong> {war.banList.join(', ')}</div>
+          {wars.map((war, index) => (
+            <li key={index} style={{ marginBottom: '15px' }}>
+              <strong>{war.eventName}</strong><br />
+              Your Clan: {war.yourClan} (Player: {war.yourPlayer})<br />
+              Opponent: {war.opponentClan} (Player: {war.opponentPlayer})<br />
+              <small>Match History (first 50 chars): {war.matchHistory.substring(0,50)}...</small>
             </li>
           ))}
         </ul>

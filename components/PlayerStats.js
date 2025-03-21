@@ -1,33 +1,57 @@
 // components/PlayerStats.js
+import { useState, useEffect } from 'react';
+
 export default function PlayerStats() {
-  const dummyStats = [
-    { player: 'Naruto', winRate: '75%', clan: 'Hidden Leaf', matches: 20 },
-    { player: 'Sasuke', winRate: '80%', clan: 'Uchiha', matches: 25 }
-  ];
+  const [stats, setStats] = useState({});
+
+  useEffect(() => {
+    const history = JSON.parse(localStorage.getItem('matchHistory')) || [];
+    const playerStats = {};
+    history.forEach(match => {
+      [match.player1, match.player2].forEach(player => {
+        if (!playerStats[player]) {
+          playerStats[player] = { played: 0, wins: 0 };
+        }
+        playerStats[player].played += 1;
+        if (match.winner.toLowerCase() === player.toLowerCase()) {
+          playerStats[player].wins += 1;
+        }
+      });
+    });
+    setStats(playerStats);
+  }, []);
 
   return (
-    <div style={{ marginTop: '20px' }}>
+    <div>
       <h2>Player Statistics</h2>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ background: '#0070f3', color: '#fff' }}>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Player</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Clan</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Win Rate</th>
-            <th style={{ padding: '10px', border: '1px solid #ccc' }}>Matches</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dummyStats.map((stat, index) => (
-            <tr key={index}>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{stat.player}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{stat.clan}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{stat.winRate}</td>
-              <td style={{ padding: '10px', border: '1px solid #ccc' }}>{stat.matches}</td>
+      {Object.keys(stats).length === 0 ? (
+        <p>No match history parsed.</p>
+      ) : (
+        <table>
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Played</th>
+              <th>Wins</th>
+              <th>Win Rate</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {Object.keys(stats).map(player => {
+              const { played, wins } = stats[player];
+              const winRate = played ? ((wins / played) * 100).toFixed(1) : "0.0";
+              return (
+                <tr key={player}>
+                  <td>{player}</td>
+                  <td>{played}</td>
+                  <td>{wins}</td>
+                  <td>{winRate}%</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

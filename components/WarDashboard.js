@@ -4,12 +4,12 @@ import Link from 'next/link';
 export default function WarDashboard() {
   return (
     <div>
-      <p>Welcome to your clan war management dashboard!</p>
+      <p>Welcome to your Naruto-Arena war management tool.</p>
       <p>
-        To manage wars, click <Link href="/wars"><a>here</a></Link>.
+        Use the navigation above to manage clans, enter war data, and view statistics.
       </p>
       <p>
-        To view statistics, click <Link href="/stats"><a>here</a></Link>.
+        Or click <Link href="/wars"><a>here</a></Link> to enter war data now.
       </p>
     </div>
   );
