@@ -1,6 +1,11 @@
 // components/WarForm.js
 import { useState, useEffect } from 'react';
-import TeamSelection from './TeamSelection';
+import dynamic from 'next/dynamic';
+import MatchHistoryInput from './MatchHistoryInput';
+import WarList from './WarList';
+
+// Dynamically import TeamSelection with SSR disabled.
+const TeamSelection = dynamic(() => import('./TeamSelection'), { ssr: false });
 
 export default function WarForm() {
   const [eventName, setEventName] = useState('');
