@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+// components/WarList.js
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function WarList() {
   const [wars, setWars] = useState([]);
@@ -7,7 +8,7 @@ export default function WarList() {
   useEffect(() => {
     const fetchWars = async () => {
       try {
-        const res = await axios.get("/api/wars");
+        const res = await axios.get('/api/wars');
         setWars(res.data);
       } catch (error) {
         console.error(error);
@@ -24,11 +25,15 @@ export default function WarList() {
       ) : (
         <ul>
           {wars.map((war) => (
-            <li key={war.id}>
-              <strong>{war.warName}</strong> - Created on{" "}
-              {new Date(war.createdAt).toLocaleString()}
-              <div>Rules: {war.rules}</div>
-              <div>Banned Characters: {war.banList.join(", ")}</div>
+            <li key={war.id} style={{
+              marginBottom: '15px',
+              padding: '10px',
+              border: '1px solid #ccc',
+              borderRadius: '5px'
+            }}>
+              <strong>{war.warName}</strong> - Created on {new Date(war.createdAt).toLocaleString()}
+              <div><strong>Rules:</strong> {war.rules}</div>
+              <div><strong>Banned Characters:</strong> {war.banList.join(', ')}</div>
             </li>
           ))}
         </ul>
