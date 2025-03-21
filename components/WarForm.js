@@ -1,5 +1,6 @@
 // components/WarForm.js
 import { useState, useEffect } from 'react';
+import TeamSelection from './TeamSelection';
 
 export default function WarForm() {
   const [eventName, setEventName] = useState('');
@@ -9,11 +10,16 @@ export default function WarForm() {
   const [opponentPlayer, setOpponentPlayer] = useState('');
   const [matchHistory, setMatchHistory] = useState('');
   const [clans, setClans] = useState([]);
+  const [teamData, setTeamData] = useState({}); // Data from TeamSelection
 
   useEffect(() => {
     const storedClans = JSON.parse(localStorage.getItem('clans')) || [];
     setClans(storedClans);
   }, []);
+
+  const handleTeamChange = (teams) => {
+    setTeamData(teams);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,9 +30,10 @@ export default function WarForm() {
       yourPlayer,
       opponentPlayer,
       matchHistory,
+      teamData,  // teams for each game
       createdAt: new Date().toISOString()
     };
-    // Save to localStorage for persistence (per user)
+    // Save warData to localStorage (or post to an API)
     const wars = JSON.parse(localStorage.getItem('wars')) || [];
     wars.push(warData);
     localStorage.setItem('wars', JSON.stringify(wars));
@@ -38,6 +45,7 @@ export default function WarForm() {
     setOpponentClan('');
     setOpponentPlayer('');
     setMatchHistory('');
+    setTeamData({});
   };
 
   return (
@@ -106,6 +114,8 @@ export default function WarForm() {
             placeholder="March 17, 2025 21:54 Tragicksz vs Gon Winner Gon&#10;..."
           ></textarea>
         </div>
+        <br />
+        <TeamSelection onTeamChange={handleTeamChange} />
         <br />
         <button type="submit">Save War Data</button>
       </form>

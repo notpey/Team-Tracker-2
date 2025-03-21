@@ -21,7 +21,8 @@ export default function WarList() {
               <strong>{war.eventName}</strong><br />
               Your Clan: {war.yourClan} (Player: {war.yourPlayer})<br />
               Opponent: {war.opponentClan} (Player: {war.opponentPlayer})<br />
-              <small>Match History (first 50 chars): {war.matchHistory.substring(0,50)}...</small>
+              <small>Match History (first 50 chars): {war.matchHistory.substring(0,50)}...</small><br />
+              <small>Team Data: {JSON.stringify(war.teamData)}</small>
             </li>
           ))}
         </ul>

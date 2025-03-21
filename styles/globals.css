@@ -11,6 +11,17 @@
   --input-border: #444;
 }
 
+/* Light mode (optional; not active by default) */
+.light-mode {
+  --bg-color: #f0f2f5;
+  --text-color: #333;
+  --primary-color: #007bff;
+  --secondary-color: #0056b3;
+  --border-color: #ccc;
+  --input-bg: #fff;
+  --input-border: #ccc;
+}
+
 /* Global Styles */
 body {
   margin: 0;
@@ -74,4 +85,21 @@ th, td {
 }
 th {
   background-color: var(--input-bg);
+}
+
+/* Drag & Drop styling for team selection */
+.team-droppable {
+  background-color: var(--input-bg);
+  min-height: 80px;
+  padding: 10px;
+  border: 2px dashed var(--border-color);
+  border-radius: 4px;
+}
+.team-draggable {
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 4px;
+  margin: 4px;
+  border-radius: 4px;
+  text-align: center;
 }
